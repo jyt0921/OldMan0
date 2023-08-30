@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>文件上传</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script type="text/javascript" src="js/vue.min.js"></script>
+  <script src="js/jquery-3.3.1.js"></script>
+  <script src="layui/layui.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+<body>
+<div class="layui-upload-drag" id="test10">
+  <i class="layui-icon"></i>
+  <p>点击上传，或将文件拖拽到此处</p>
+  <div class="layui-hide" id="uploadDemoView">
+    <hr>
+    <img src="" alt="上传成功后渲染" style="max-width: 196px">
+  </div>
+</div>
+
+<script>
+  layui.use(['upload', 'element', 'layer'], function(){
+    var $ = layui.jquery
+            ,upload = layui.upload
+            ,element = layui.element
+            ,layer = layui.layer;
+    //拖拽上传
+    upload.render({
+      elem: '#test10'
+      ,url: 'https://httpbin.org/post' //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+      ,done: function(res){
+        layer.msg('上传成功');
+        layui.$('#uploadDemoView').removeClass('layui-hide').find('xlsx').attr('src', res.files.file);
+        console.log(res)
+      }
+    });
+
+  });
+</script>
+
+</body>
+
+</html>

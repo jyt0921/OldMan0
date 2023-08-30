@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>圆柱图</title>
+  <!-- 引入刚刚下载的 ECharts 文件 -->
+  <script src="JS/echarts.js"></script>
+  <script src="layui/jquery-3.3.1.js"></script><!--js文件在最后都有哦-->
+  <script src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+</head>
+<body>
+
+<div id="main" class="list-main">
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="areaone" style="width: 1000px;height:600px;"></div>
+  <script type="text/javascript">
+    var idcard1=parent.idcard123;
+    console.log(idcard1);
+    var date0 = [];//定义数组用来接受后台的数据，数组名随意啦
+    var sum = [];
+    var str=new Array();
+    var url = "selectdata1";
+    <!--使用ajax动态获取数据，将获取的数据放到数组中-->
+    $.ajax({
+      async: false,
+      type: "GET",
+      url: url,
+      dataType: 'json',
+      data:{"idcard1":idcard1},
+      contentType: "application/json;charset=UTF-8",
+      success: function(result){
+        for (var i = 0; i < result.length; i++) {
+          date0.push(result[i].date);
+          sum.push(result[i].sumrichang);
+          str.push({date:result[i].date,sum:result[i].sumrichang})
+        }
+      }
+    });
+
+    //下面就是官网的数据了进行一些简单的修改就可以了
+    var chartDom = document.getElementById('areaone');
+    var myChart = echarts.init(chartDom);
+    // 指定图表的配置项和数据
+    var option =     {
+      color: ['#c23531','#2f4554', '#61a0a8'],
+      title: {
+        text: '老年人日常生活评估变化'
+      },
+      tooltip: {},
+      legend: {
+        data: ['count'],
+        orient: 'horizontal',
+        itemGap: 40,
+        textStyle: {
+          color: 'red',
+          fontSize: '20px',
+          fontWeight: 700
+        }
+      },
+      xAxis: {
+        data: date0//x轴
+      },
+      yAxis: {//y轴不用设置（2d）
+      },
+      series: [{
+        name: 'count',
+        type: 'bar',
+        data: sum//数据
+      }]
+    };
+    myChart.on("click", pieConsole);
+    function pieConsole(param) {
+      var chartDom = document.getElementById('areaone');
+      var myChart1 = echarts.init(chartDom);
+      var optionRecords = {
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['进食','洗澡','修饰','穿衣','大便控制','小便控制','如厕','床椅转移','平地行走','上下楼梯']
+      },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name:'日常生活活动',
+            type:'line',
+            data:[10, 2, 10, 5, 5, 2, 4,10,5,8,]
+          }
+        ]
+      };
+      option && myChart1.setOption(optionRecords);
+    }
+    option && myChart.setOption(option);
+  </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>  精神状态评估表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+
+
+<!--老年人评估展示页面    日常生活活动评估表-->
+
+
+
+<body>
+<style>
+    .layertest{
+        display: none;
+    }
+</style>
+
+</div>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend> 精神状态评估表</legend>
+
+</fieldset>
+<div>
+    <table class="layui-hide" id="test" lay-filter="test" style="width: 80%;float: right;">
+    </table>
+
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+
+        姓名：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_name" id="search_name" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        身份证：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_IDcard" id="search_IDcard" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        <button class="layui-btn" type="button" id="search_btn" data-type="reload">搜索</button>
+        <button class="layui-btn" type="button" id="add_btn" data-type="reload">添加新用户</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="search">再次评估</a>
+</script>
+
+<script>
+
+    layui.use('table', function(){
+        var table = layui.table;
+        var $  = layui.jquery;
+        table.render({
+            elem: '#test'
+            ,url:'showjingshen'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,title: '老年人信息展示'
+            ,id: 'test'
+            ,cols: [[
+                {field:'date', title:'评估日期',  width:100, edit: 'text'}
+                ,{field:'name', title:'姓名', width:140, sort: true}//超链接
+                ,{field:'idcard', title:'身份证',  width:120, edit: 'text'}
+                ,{field:'renzhi', title:'认知', width:170, edit: 'text'}
+                ,{field:'gongji', title:'攻击',  width:100,edit: 'text'}
+                ,{field:'yiyu', title:'抑郁',  width:70, edit: 'text'}
+                ,{field:'jinsheng', title:'精神总分', width:120, edit: 'text'}
+                ,{field:'jinshenfenji', title:'精神分级',  width:110, sort: true}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]]
+            ,page: true
+        });
+        $('#reset').on('click', function () {
+            var id = $("#cgname").val("");
+            var name = $("#cname").val("");
+            var sex = $("#cgrgb").val("");
+            var birthday = $("#cgsum").val("");
+            var id = $("#cjdate").val("");
+            var name = $("#cpnum").val("");
+        });
+
+//增加
+        //查询
+        $(document).on('click','#search_btn',function (data) {
+            var search =  $('#demoReload');
+            var sta = $('#demosel');
+            table.reload('test',{
+                where:{
+                    id : search.val(),
+                    sta:sta.val()
+                },
+                url:'selectcontract'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        $(document).on('click','#add_btn',function (data) {
+            name0=data.name;
+            idcard0=data.idcard;
+            console.log(name0);
+            layer.open({
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['1000px', '600px'], //宽高
+                content: "index111.html"
+            });
+            table.reload('test',{
+                url:'showjingshen'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+        //监听行工具事件 del
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            //删除
+            if(obj.event === 'del'){
+                layer.confirm('删除以下信息<br>'+ '<br>合同名称: '+ data.cname+ '<br>合同编号: '+ data.cnum , function(index){
+                    $.ajax({
+                        url: "deletecontract",
+                        type: "POST",
+                        dataType:"text",
+                        data: {cname: data.cname,cnum:data.cnum},
+                        success: function (msg) {
+                            if (msg == "ok") {
+                                //删除这一行
+                                obj.del();
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg('删除成功!',function() {time:2000})
+                            } else {
+                                layer.msg("删除失败", function() {time:2000});
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+            //修改
+            else if(obj.event === 'edit'){
+                layer.confirm('更改为以下信息<br>'+ '<br>合同名称: '+ data.cname +'<br>货物名称: ' +data.cgname +'<br>货物类型: ' +data.cgtype +'<br>货物颜色: ' +data.cgrgb +'<br>货物数量: ' +data.cgsum  +'<br>合同拟制人: ' +data.cpnum, function(index){
+                    $.ajax({
+                        url: "updatecontract",
+                        type: "POST",
+                        data: {cnum:data.cnum,cname: data.cname,cgname: data.cgname,cgtype: data.cgtype,cgrgb: data.cgrgb,cgsum: data.cgsum,cpnum: data.cpnum},
+                        success: function (msg) {
+                            if (msg == "ok") {
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg('修改成功!',function() {time:2000})
+                            } else {
+                                layer.msg("修改失败", function() {time:2000});
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+
+            else if(obj.event === 'add'){
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['1000px', '600px'], //宽高
+                    content: $('#layertest')
+                });
+                table.reload('test',{
+
+                    url:'showjingshen'
+                    ,
+                    page: {
+                        curr:1
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+
+</body>
+</html>

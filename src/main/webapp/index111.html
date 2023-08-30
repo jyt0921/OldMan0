@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>老年人评估系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="layui/vue.min.js"></script>
+    <script src="layui/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css"   >
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <!-- 注意:如果你直接复制所有代码到本地,上述css路径需要改成你本地的 -->
+    <style> .layui-form-label {
+        width: 200px !important;
+        text-align: center !important;
+    }
+
+    .layui-input-block {
+        margin-left: 250px !important;
+    }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="addjingshen">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" id="name"autocomplete="off" placeholder="请输入姓名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号</label>
+        <div class="layui-input-block">
+            <input type="text" name="identity" id ="identity"  placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">认知功能</label>
+        <div class="layui-input-block">
+            <select id="renzhi" name="renzhi">
+                <option value="2"></option>
+                <option value="0">画钟正确（画出一个闭锁圆，指针位置准确），且能回忆出 2-3 个词</option>
+                <option value="1">画钟错误（画的圆不闭锁，或指针位置不准确），或只回忆出 0-1 个词</option>
+                <option value="2"> 已确诊为认知障碍，如老年痴呆</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">攻击行为</label>
+        <div class="layui-input-block">
+            <select id="gongji" name="gongji">
+                <option value="2"></option>
+                <option value="0">无身体攻击行为和语言攻击行为</option>
+                <option value="1">每月有几次身体攻击行为，或每周有几次语言攻击行为</option>
+                <option value="2">每周有几次身体攻击行为，或每日有语言攻击行为</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">抑郁症状</label>
+        <div class="layui-input-block">
+            <select id="yiyu" name="yiyu">
+                <option value="2"></option>
+                <option value="0">无</option>
+                <option value="1">情绪低落、不爱说话、不爱梳洗、不爱活动</option>
+                <option value="2">有自杀念头或自杀行为</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    var name1=parent.name0;
+    var idcard1=parent.idcard0;
+    console.log(name1);
+    document.getElementById("name").value=name1;
+    document.getElementById("identity").value=idcard1;
+</script>
+</html>

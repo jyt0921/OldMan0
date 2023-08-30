@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>老年人评估系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="layui/vue.min.js"></script>
+    <script src="layui/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css"   >
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <!-- 注意:如果你直接复制所有代码到本地,上述css路径需要改成你本地的 -->
+    <style> .layui-form-label {
+        width: 200px !important;
+        text-align: center !important;
+    }
+
+    .layui-input-block {
+        margin-left: 250px !important;
+    }
+    </style>
+</head>
+<body>
+
+<form class="layui-form" action="addrichang">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" id="name"autocomplete="off" placeholder="请输入姓名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">身份证号</label>
+        <div class="layui-input-block">
+            <input type="text" name="identity" id ="identity"  placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.1进食:</label>
+        <div class="layui-input-block">
+            <select name="jinshi" lay-filter="jinshi">
+                <option value="">指用餐具将食物由容器送到口中、咀嚼、吞咽 等过程</option>
+                <option value="10">10 分,可独立进食（在合理的时间内独立进食准备好的食物）</option>
+                <option value="5">5 分, 需部分帮助（进食过程中需要一定帮助,如协助把持餐具）</option>
+                <option value="0">0 分, 需极大帮助或完全依赖他人,或有留置营养管</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.2洗澡:</label>
+        <div class="layui-input-block">
+            <select name="xizao" lay-filter="xizao">
+                <option value=""></option>
+                <option value="5">5 分, 准备好洗澡水后,可自己独立完成洗澡过程</option>
+                <option value="0">0 分, 在洗澡过程中需他人帮助</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.3修饰: </label>
+        <div class="layui-input-block">
+            <select name="xiushi" lay-filter="xiushi">
+                <option value="">指洗脸、刷牙、梳头、刮脸等</option>
+                <option value="5">5 分,可自己独立完成</option>
+                <option value="0">0 分,需他人帮助</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.4穿衣:</label>
+        <div class="layui-input-block">
+            <select name="chuanyi" lay-filter="chuanyi">
+                <option value="">指穿脱衣服、系扣、拉拉链、穿脱鞋袜、系鞋带</option>
+                <option value="10">10 分,可独立完成</option>
+                <option value="5">5 分, 需部分帮助（能自己穿脱,但需他人帮助整理衣物、系扣/鞋带、拉拉链）</option>
+                <option value="0">0 分, 需极大帮助或完全依赖他人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.5 大便控制:</label>
+        <div class="layui-input-block">
+            <select name="dabiankongzhi"  lay-filter="dabiankongzhi">
+                <option value=""></option>
+                <option value="10">10 分，可控制大便</option>
+                <option value="5">5 分， 偶尔失控（每周<1 次），或需要他人提示</option>
+                <option value="0">0 分， 完全失控</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.6小便控制:</label>
+        <div class="layui-input-block">
+            <select name="xiaobiankongzhi" lay-filter="xiaobiankongzhi">
+                <option value=""></option>
+                <option value="10">10 分，可控制小便</option>
+                <option value="5">5 分， 偶尔失控（每天<1 次，但每周>1 次），或需要他人提示</option>
+                <option value="0">0 分， 完全失控，或留置导尿管</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.7 如厕:</label>
+        <div class="layui-input-block">
+            <select name="ruce" lay-filter="ruce">
+                <option value="">包括去厕所、解开衣裤、擦净、整理衣裤、冲水</option>
+                <option value="10">10 分，可独立完成</option>
+                <option value="5">5 分， 需部分帮助（需他人搀扶去厕所、需他人帮忙冲水或整理衣裤等）</option>
+                <option value="0">0 分， 需极大帮助或完全依赖他人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.8床椅转移:</label>
+        <div class="layui-input-block">
+            <select name="chuangyizhuanyi" lay-filter="chuangyizhuanyi">
+                <option value=""></option>
+                <option value="15">15 分，可独立完成</option>
+                <option value="10">10 分，需部分帮助（需他人搀扶或使用拐杖）</option>
+                <option value="5">5 分， 需极大帮助（较大程度上依赖他人搀扶和帮助）</option>
+                <option value="0">0 分， 完全依赖他人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.9平地行走:</label>
+        <div class="layui-input-block">
+            <select name="pingdixingzou" lay-filter="pingdixingzou">
+                <option value=""></option>
+                <option value="15">15 分，可独立在平地上行走 45m</option>
+                <option value="10">10 分，需部分帮助（因肢体残疾、平衡能力差、过度衰弱、视力等问题，在一定程度上需他人地搀扶或使用拐杖、助行器等辅助用具）</option>
+                <option value="5">5 分， 需极大帮助（因肢体残疾、平衡能力差、过度衰弱、视力等问题，在较大程度上依赖他人搀扶，或坐在轮椅上自行移动）</option>
+                <option value="0">0 分， 完全依赖他人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">B.1.10上下楼梯:</label>
+        <div class="layui-input-block">
+            <select name="shangxialouti" lay-filter="shangxialouti">
+                <option value=""></option>
+                <option value="10">10 分，可独立上下楼梯（连续上下 10-15 个台阶）</option>
+                <option value="5">5 分， 需部分帮助（需他人搀扶，或扶着楼梯、使用拐杖等）</option>
+                <option value="0">0 分， 需极大帮助或完全依赖他人</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    var name1=parent.name0;
+    var idcard1=parent.idcard0;
+    console.log(name1);
+    document.getElementById("name").value=name1;
+    document.getElementById("identity").value=idcard1;
+
+</script>
+
+</body>
+</html>

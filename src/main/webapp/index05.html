@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>老年人评估系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+<body>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script script src="//unpkg.com/layui@2.6.8/dist/layui.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">信息提供者姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="tigongname" id="tigongname"autocomplete="off" placeholder="请输入姓名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">信息提供者与老人关系</label>
+        <div class="layui-input-block">
+            <input type="text" name="guanxi" id ="guanxi"  placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">评估者身份证号码</label>
+            <div class="layui-input-block">
+                <input type="text" name="IDcard" id="IDcard"autocomplete="off" placeholder="请输入身份证" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" id="name"autocomplete="off" placeholder="请输入姓名" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系人电话</label>
+            <div class="layui-input-block">
+                <input type="text" name="phone" id ="phone"  placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn"  value="立即提交" id="add">立即提交</button>
+                <button class="layui-btn layui-btn-primary"  value="重置" id="reset">重置</button>
+            </div>
+        </div>
+    </div>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+    layui.use(['form'], function () {
+        // var upload = layui.upload;
+        var form = layui.form;
+        form.on('radio(ChoiceRadio)',function(data){
+            console.log(data.value); //被点击的 radio 的 value 值
+            if(data.value=="有")
+            {
+                $('#qq').attr('class','layui-input ');
+            }
+        });
+    });
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+    });
+</script>
+</body>
+</html>
+</body>
+</html>

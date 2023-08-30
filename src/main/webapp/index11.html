@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>日常生活活动评估表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+
+<!--老年人评估展示页面    日常生活活动评估表-->
+
+<body>
+<style>
+    .layertest{
+        display: none;
+    }
+</style>
+
+</div>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>日常生活活动评估表</legend>
+
+</fieldset>
+<div>
+    <table class="layui-hide" id="test" lay-filter="test" style="width: 80%;float: right;">
+    </table>
+
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+        姓名：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_name" id="search_name" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        身份证：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_IDcard" id="search_IDcard" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        <button class="layui-btn" type="button" id="search_btn" data-type="reload">搜索</button>
+        <button class="layui-btn" type="button" id="add_btn" data-type="reload">添加</button>
+        <button class="layui-btn" type="button" id="keshihua" data-type="reload">可视化展示</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">查看个人情况</a>
+    <a class="layui-btn layui-btn-xs" lay-event="add">再次评估</a>
+</script>
+
+<script>
+    function getUrlParam(name) {
+        console.log("111");
+        //构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) {
+            return unescape(r[2]);
+        } else {
+            return null; //返回参数值
+        }
+    }
+    var name11=getUrlParam("name11");
+    console.log(name11);
+    //查询
+
+
+    var nam0;
+    var idcard0;
+    layui.use('table', function(){
+        function sel() {
+            table.reload('test',{
+                where:{
+                    name11 : name11
+
+                },
+                url:'select00'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        }
+        var table = layui.table;
+        var $  = layui.jquery;
+        table.render({
+            elem: '#test'
+            ,url:'showrichang'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,title: '老年人信息展示'
+            ,id: 'test'
+            ,cols: [[
+                {field:'date', title:'评测时间', width:120, edit: 'text'}
+                ,{field:'name', title:'姓名', width:90, edit: 'text'}
+                ,{field:'idcard', title:'身份证', width:120, edit: 'text'}
+                ,{field:'jingshi', title:'进食',  width:70,edit: 'text'}
+                ,{field:'xizao', title:'洗澡',  width:70, edit: 'text'}
+                ,{field:'xiushi', title:'修饰', width:70, edit: 'text'}
+                ,{field:'chuanyi', title:'穿衣',  width:70, sort: true}
+                ,{field:'dabian', title:'大便控制',  width:100, sort: true}
+                ,{field:'xiaobian', title:'小编控制', width:100, edit: 'text'}
+                ,{field:'ruce', title:'如厕',  width:70,sort: true}
+                ,{field:'chuangyizhuanyi', title:'床椅转移', width:100}
+                ,{field:'pingdixingzou', title:'平地行走', width:100}
+                ,{field:'shangxialouti', title:'上下楼梯', width:100}
+                ,{field:'sumrichang', title:'日常生活总分', width:140}
+                ,{field:'richangfenji', title:'日常生活分级', width:140}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:350}
+            ]]
+            ,page: true
+        });
+        //查询
+        $(document).on('click','#search_btn',function (data) {
+            var search =  $('#demoReload');
+            var sta = $('#demosel');
+            table.reload('test',{
+                where:{
+                    id : search.val(),
+                    sta:sta.val()
+                },
+                url:'selectcontract'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        $(document).on('click','#add_btn',function (data) {
+            name0=data.name;
+            idcard0=data.idcard;
+            console.log(name0);
+            layer.open({
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['1000px', '600px'], //宽高
+                content: "index101.html"
+            });
+            table.reload('test',{
+                url:'showrichang'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        $(document).on('click','#keshihua',function (data) {
+            idcard123 = $('#search_IDcard').val();
+            layer.open({
+                type: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['1000px', '600px'], //宽高
+                content: "data0.html"
+            });
+            table.reload('test',{
+                url:'showrichang'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        //监听行工具事件 del
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            //删除
+            if(obj.event === 'del'){
+                sel();
+            }
+            else if(obj.event === 'add'){
+                name0=data.name;
+                idcard0=data.idcard;
+                console.log(name0);
+                layer.open({
+                    type: 2,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['1000px', '600px'], //宽高
+                    content: "index101.html"
+                });
+                table.reload('test',{
+                    url:'showrichang'
+                    ,
+                    page: {
+                        curr:1
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

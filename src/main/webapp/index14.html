@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> 社会参与评估表
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+
+
+<!--老年人评估展示页面    日常生活活动评估表-->
+
+
+
+<body>
+<style>
+    .layertest{
+        display: none;
+    }
+</style>
+
+</div>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend> 社会参与评估表</legend>
+
+</fieldset>
+<div>
+    <table class="layui-hide" id="test" lay-filter="test" style="width: 80%;float: right;">
+    </table>
+
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+
+        姓名：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_name" id="search_name" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        身份证：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_IDcard" id="search_IDcard" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        <button class="layui-btn" type="button" id="search_btn" data-type="reload">搜索</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="search">再次评估</a>
+</script>
+
+<script type="text/html" id="herfFormalUrl">
+    <a href="index30.html" class="layui-table-link">{{ d.cnum }}</a>
+</script>
+<script>
+
+    layui.use('table', function(){
+        var table = layui.table;
+        var $  = layui.jquery;
+        table.render({
+            elem: '#test'
+            // ,url:'showcontract'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,title: '老年人信息展示'
+            ,id: 'test'
+            ,cols: [[
+                {field:'1', title:'评估编号',  width:100, edit: 'text'}
+                ,{field:'2', title:'评估基准日期', width:140, sort: true}//超链接
+                ,{field:'3', title:'评估原因',  width:120, edit: 'text'}
+                ,{field:'4', title:'姓名', width:170, edit: 'text'}
+                ,{field:'5', title:'进食',  width:100,edit: 'text'}
+                ,{field:'6', title:'洗澡',  width:70, edit: 'text'}
+                ,{field:'7', title:'修饰', width:120, edit: 'text'}
+                ,{field:'8', title:'穿衣',  width:110, sort: true}
+                ,{field:'9', title:'大便控制',  width:110, sort: true}
+                ,{field:'11', title:'小编控制', width:100, edit: 'text'}
+                ,{field:'12', title:'如厕',  width:100,sort: true}
+                ,{field:'13', title:'床椅转移', width:100}
+                ,{field:'14', title:'平地行走', width:100}
+                ,{field:'15', title:'上下楼梯', width:100}
+                ,{field:'16', title:'跌倒', width:70}
+                ,{field:'17', title:'走失', width:70}
+                ,{field:'18', title:'噎食', width:70}
+                ,{field:'19', title:'自杀', width:70}
+                ,{field:'20', title:'其他', width:70}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+            ]]
+            ,data: [{
+                "1": "杜甫"
+                ,"2": "女"
+                ,"3": "2022/09/10"
+                ,"4": "123231312312312"
+                ,"5": "2311231"
+                ,"6": "汉"
+                ,"7": "本科"
+                ,"8": "佛教"
+                ,"9": "无"
+                ,"11": "独居"
+                ,"12": "养老金"
+                ,"13": "0"
+                ,"14": "1"
+                ,"15": "3"
+                ,"16": "1"
+                ,"17": "1"
+                ,"18": "0"
+                ,"19": "无"
+            },{
+                "1": "杜甫"
+                ,"2": "女"
+                ,"3": "2022/09/10"
+                ,"4": "123231312312312"
+                ,"5": "2311231"
+                ,"6": "汉"
+                ,"7": "本科"
+                ,"8": "佛教"
+                ,"9": "无"
+                ,"11": "独居"
+                ,"12": "养老金"
+                ,"13": "0"
+                ,"14": "1"
+                ,"15": "3"
+                ,"16": "1"
+                ,"17": "1"
+                ,"18": "0"
+                ,"19": "无"
+            }]
+            ,page: true
+        });
+        $('#reset').on('click', function () {
+            var id = $("#cgname").val("");
+            var name = $("#cname").val("");
+            var sex = $("#cgrgb").val("");
+            var birthday = $("#cgsum").val("");
+            var id = $("#cjdate").val("");
+            var name = $("#cpnum").val("");
+        });
+
+//增加
+        $('#add').on('click', function () {
+            var cname = $("#cname").val();
+            var cgname = $("#cgname").val();
+            var cpnum = $("#cpnum").val();
+            var cgrgb = $("#cgrgb").val();
+            var cgsum = $("#cgsum").val();
+            var cjdate = $("#cjdate").val();
+            var cgtype = $("input[name='cgtype']:checked").val();
+            console.log(cname);
+            console.log(cjdate);
+            if (cname==undefined||cname==''){
+                console.log('合同名称不能为空!');
+                layer.msg('合同名称不能为空!',function() {time:2000});
+                return false;
+            }
+            if (cgname==undefined||cgname==''){
+                console.log('货物名称不能为空!');
+                layer.msg('货物名称不能为空!',function() {time:2000});
+                return false;
+            }
+            $.ajax({
+                url: "addcontract",
+                type: "POST",
+                data: {"cname":cname,"cgname":cgname,"cpnum":cpnum,"cgrgb":cgrgb,"cgsum":cgsum,"cjdate":cjdate,"cgtype":cgtype},
+                success: function (data) {
+                    // var data = JSON.parse( jsonObj );//解析json对象
+
+                    if(data=="ok") {//ok说明登录成功
+                        layer.msg('提交成功!',function() {time:2000});
+                        table.reload('test',{
+
+                            url:'showcontract'
+                            ,
+                            page: {
+                                curr:1
+                            }
+                        });
+
+                    }
+                },//响应成功后的回调函数
+                error: function () {
+                    console.log(data);
+                    layer.msg('提交失败!',function() {time:2000});
+                },//表示如果请求响应出现错误，会执行的回调函数
+                //dataType: "json"//设置接受到的响应数据的格式
+            });
+        });
+        //查询
+        $(document).on('click','#search_btn',function (data) {
+            var search =  $('#demoReload');
+            var sta = $('#demosel');
+            table.reload('test',{
+                where:{
+                    id : search.val(),
+                    sta:sta.val()
+                },
+                url:'selectcontract'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+            };
+        });
+        //监听行工具事件 del
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            //删除
+            if(obj.event === 'del'){
+                layer.confirm('删除以下信息<br>'+ '<br>合同名称: '+ data.cname+ '<br>合同编号: '+ data.cnum , function(index){
+                    $.ajax({
+                        url: "deletecontract",
+                        type: "POST",
+                        dataType:"text",
+                        data: {cname: data.cname,cnum:data.cnum},
+                        success: function (msg) {
+                            if (msg == "ok") {
+                                //删除这一行
+                                obj.del();
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg('删除成功!',function() {time:2000})
+                            } else {
+                                layer.msg("删除失败", function() {time:2000});
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+            //修改
+            else if(obj.event === 'edit'){
+                layer.confirm('更改为以下信息<br>'+ '<br>合同名称: '+ data.cname +'<br>货物名称: ' +data.cgname +'<br>货物类型: ' +data.cgtype +'<br>货物颜色: ' +data.cgrgb +'<br>货物数量: ' +data.cgsum  +'<br>合同拟制人: ' +data.cpnum, function(index){
+                    $.ajax({
+                        url: "updatecontract",
+                        type: "POST",
+                        data: {cnum:data.cnum,cname: data.cname,cgname: data.cgname,cgtype: data.cgtype,cgrgb: data.cgrgb,cgsum: data.cgsum,cpnum: data.cpnum},
+                        success: function (msg) {
+                            if (msg == "ok") {
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg('修改成功!',function() {time:2000})
+                            } else {
+                                layer.msg("修改失败", function() {time:2000});
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+
+            else if(obj.event === 'add'){
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['600px', '600px'], //宽高
+                    content: $('#layertest')
+                });
+                table.reload('test',{
+
+                    url:'showorder'
+                    ,
+                    page: {
+                        curr:1
+                    }
+                });
+            }
+
+        });
+    });
+</script>
+
+</body>
+</html>

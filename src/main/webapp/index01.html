@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>老年人评估系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="layui/vue.min.js"></script>
+    <script src="layui/jquery-3.3.1.js"></script>
+    <script src="layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="layui/css/layui.css" tppabs="http://res.layui.com/layui/dist/css/layui.css"  media="all">
+</head>
+
+
+
+<!--老年人信息登记页面已经查看页面-->
+
+
+
+<body>
+<style>
+    .layertest{
+        display: none;
+    }
+</style>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>老年人信息展示表</legend>
+</fieldset>
+<div id="test4" class="demo-tree"style="width: 10%;float: left;margin-top: 60px"></div>
+<table class="layui-hide" id="test" lay-filter="test">
+
+</table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+        姓名：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_name" id="search_name" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        身份证：
+        <div class="layui-inline">
+            <input class="layui-input" name="search_IDcard" id="search_IDcard" autocomplete="off">
+        </div>
+        &nbsp;&nbsp;&nbsp;
+            <button class="layui-btn" type="button" id="search_btn" data-type="reload">搜索</button>
+        &nbsp;&nbsp;&nbsp;
+            <button class="layui-btn" type="button" id="add_btn" data-type="reload">添加新用户</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="search" href="index02.html">查看信息提供者</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改信息</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除信息</a>
+</script>
+
+<script type="text/html" id="herfFormalUrl">
+<!--    <a href="index30.html" class="layui-table-link">{{ d.cnum }}</a>-->
+</script>
+<script>
+    function getUrlParam(name) {
+        console.log("111");
+        //构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) {
+            return unescape(r[2]);
+        } else {
+            return null; //返回参数值
+        }
+    }
+    var name11=getUrlParam("name11");
+    console.log(name11);
+
+    layui.use('table', function(){
+        var table = layui.table;
+        var $  = layui.jquery;
+        table.render({
+            elem: '#test'
+            ,url:'oldmaninfo'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                ,layEvent: 'LAYTABLE_TIPS'
+                ,icon: 'layui-icon-tips'
+            }]
+            ,title: '老年人信息展示'
+            ,id: 'test'
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{fixed: 'left', title:'操作', toolbar: '#barDemo', width:280}
+                ,{field:'name', title:'姓名',  width:100, edit: 'text'}
+                ,{field:'sex', title:'性别', width:80, sort: true}//超链接
+                ,{field:'chusheng', title:'出生日期',  width:120, edit: 'text'}
+                ,{field:'idcard', title:'身份证号码', width:170, edit: 'text'}
+                ,{field:'shebao', title:'社保卡',  width:100,edit: 'text'}
+                ,{field:'mingzu', title:'民族',  width:70, edit: 'text'}
+                ,{field:'wenhuachengdu', title:'文化程度', width:120, edit: 'text'}
+                ,{field:'zongjiao', title:'宗教信仰',  width:110, sort: true}
+                ,{field:'hunyan', title:'婚姻状况',  width:110, sort: true}
+                ,{field:'juzhu', title:'居住情况', width:100, edit: 'text'}
+                ,{field:'zhifufangshi', title:'医疗费支付方式',  width:180,sort: true}
+                ,{field:'jingjilaiyuan', title:'经济来源',  width:180,sort: true}
+                ,{field:'chidai', title:'痴呆', width:70}
+                ,{field:'jingshenjibing', title:'精神疾病', width:100}
+                ,{field:'manxingjibing', title:'慢性疾病', width:100}
+                ,{field:'diedao', title:'跌倒', width:70}
+                ,{field:'zoushi', title:'走失', width:70}
+                ,{field:'yeshi', title:'噎食', width:70}
+                ,{field:'zisha', title:'自杀', width:70}
+                ,{field:'qita', title:'其他', width:70}
+            ]]
+            ,page: true
+        });
+
+        layui.use(['tree', 'util'], function(){
+            var tree = layui.tree
+                ,layer = layui.layer
+                ,util = layui.util
+                //模拟数据
+                ,data = [{
+                }]
+            //手风琴模式
+            tree.render({
+                elem: '#test4'
+                ,data:[{title:"性别",children:[{title:"男"},{title:"女"}]},{title:"民族",children:[{title:"汉族"},{title:"少数民族"}]},{title:"文化程度",children:[{title:"文盲"},{title:"小学"},{title:"初中"},{title:"高中/中专"},{title:"本科"},{title:"不详"}]}]
+                ,accordion: true
+            });
+            tree.render({
+                elem: '#test4'
+                ,data:[{title:"性别",children:[{title:"男"},{title:"女"}]},{title:"民族",children:[{title:"汉族"},{title:"少数民族"}]},{title:"文化程度",children:[{title:"文盲"},{title:"小学"},{title:"初中"},{title:"高中/中专"},{title:"本科"},{title:"不详"}]}]
+                ,click: function(obj){
+                    console.log(obj.data.title)
+                    table.reload('test', {
+                        where: {
+                            sum: obj.data.title
+                        },
+                        url: 'select11'
+                        ,
+                        page: {
+                            curr: 1
+                        }
+                    });
+                }
+            });
+
+        });
+        $(document).on('click','#add_btn',function (data) {
+            var name00=name11;
+            layer.open({
+            type: 2,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['1000px', '600px'], //宽高
+            content: "index03.html"
+        });
+            table.reload('test',{
+
+                url:''
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        //查询
+        $(document).on('click','#search_btn',function (data) {
+            var name =  $('#search_name');
+            var Idcard = $('#search_IDcard');
+            table.reload('test',{
+                where:{
+                    name : name.val(),
+                    Idcard:Idcard.val()
+                },
+                url:'selectinfo'
+                ,
+                page: {
+                    curr:1
+                }
+            });
+        });
+        //监听行工具事件 del
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            //删除
+            if(obj.event === 'del'){
+                layer.confirm('删除以下信息<br>'+ '<br>合同名称: '+ data.cname+ '<br>合同编号: '+ data.cnum , function(index){
+                    $.ajax({
+                        url: "deletecontract",
+                        type: "POST",
+                        dataType:"text",
+                        data: {cname: data.cname,cnum:data.cnum},
+                        success: function (msg) {
+                            if (msg == "ok") {
+                                //删除这一行
+                                obj.del();
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg('删除成功!',function() {time:2000})
+                            } else {
+                                layer.msg("删除失败", function() {time:2000});
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+
+
+        });
+    });
+</script>
+
+</body>
+</html>
